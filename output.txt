@@ -1,0 +1,67 @@
+PS C:\apt> python test.py
+Found 8 CSV files
+Loading: C:/apt/CICIDS2017\Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
+Loading: C:/apt/CICIDS2017\Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv
+Loading: C:/apt/CICIDS2017\Friday-WorkingHours-Morning.pcap_ISCX.csv
+Loading: C:/apt/CICIDS2017\Monday-WorkingHours.pcap_ISCX.csv
+Loading: C:/apt/CICIDS2017\Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv
+Loading: C:/apt/CICIDS2017\Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv
+Loading: C:/apt/CICIDS2017\Tuesday-WorkingHours.pcap_ISCX.csv
+Loading: C:/apt/CICIDS2017\Wednesday-workingHours.pcap_ISCX.csv
+✅ Merged successfully: (2830743, 79)
+
+Cleaning data...
+After cleaning: (2520798, 79)
+
+Processing labels...
+Label
+0    2095057
+1     425741
+Name: count, dtype: int64
+
+Preparing features...
+Feature shape: (2520798, 78)
+
+Removing highly correlated features...
+Dropped 31 correlated features
+New shape: (2520798, 47)
+
+Training Random Forest...
+
+Training Isolation Forest...
+
+===== Random Forest =====
+Confusion Matrix:
+[[418429    583]
+ [   274  84874]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00    419012
+           1       0.99      1.00      0.99     85148
+
+    accuracy                           1.00    504160
+   macro avg       1.00      1.00      1.00    504160
+weighted avg       1.00      1.00      1.00    504160
+
+ROC-AUC: 0.9976953526498619
+
+===== Isolation Forest =====
+Confusion Matrix:
+[[381532  37480]
+ [ 72363  12785]]
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.84      0.91      0.87    419012
+           1       0.25      0.15      0.19     85148
+
+    accuracy                           0.78    504160
+   macro avg       0.55      0.53      0.53    504160
+weighted avg       0.74      0.78      0.76    504160
+
+ROC-AUC: 0.5303509071379495
+
+✅ Pipeline completed successfully!
