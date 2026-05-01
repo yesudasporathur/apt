@@ -154,11 +154,10 @@ def evaluate_model(name, y_true, y_pred, y_scores):
     print("Confusion Matrix:")
     print(confusion_matrix(y_true, y_pred))
 
-    print("\nClassification Report:")
-    print(classification_report(y_true, y_pred))
+    print("\nClassification Report (5 decimal places):")
+    print(classification_report(y_true, y_pred, digits=5))
 
-    print("ROC-AUC:", roc_auc_score(y_true, y_scores))
-
+    print(f"ROC-AUC: {roc_auc_score(y_true, y_scores):.5f}")
 
 evaluate_model("Random Forest", y_test, y_pred_rf, y_scores_rf)
 evaluate_model("Isolation Forest", y_test, y_pred_iso, y_scores_iso)

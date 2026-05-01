@@ -2,10 +2,6 @@ import pandas as pd
 import numpy as np
 import glob
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.ensemble import RandomForestClassifier, IsolationForest
-from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 
 
 # ==============================
@@ -46,6 +42,8 @@ def csvLoader(folder_path):
     return df
 
 df = csvLoader("C:/apt/datasets/CICIDS2017")
+#df = csvLoader("C:/apt/datasets/UNSW_NB15")
+
 
 def cleanData(df):
     print("\nCleaning data...\n")
