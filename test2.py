@@ -1,6 +1,5 @@
-# ==============================
-# 1. IMPORT LIBRARIES
-# ==============================
+
+# PRE PROCESSING DIRECTIVES
 import os
 import pandas as pd
 import numpy as np
@@ -12,17 +11,14 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix,
     roc_auc_score,
-    roc_curve,
-    auc
+    roc_curve
 )
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-# ==============================
-# 2. LOAD DATA
-# ==============================
+#  LOAD DATA
 input_path = "C:/apt/input.csv"
 output_path = "C:/apt/output/"
 
@@ -35,9 +31,7 @@ if 'Label' not in df.columns:
     raise ValueError("'Label' column not found in dataset")
 
 
-# ==============================
-# 3. PREPARE FEATURES
-# ==============================
+#  PREPARE FEATURES
 def prepare_features(df):
     print("\nPreparing features...")
 
@@ -60,9 +54,8 @@ def prepare_features(df):
 X, y = prepare_features(df)
 
 
-# ==============================
-# 4. TRAIN-TEST SPLIT (BEFORE FEATURE SELECTION!)
-# ==============================
+#  TRAIN-TEST SPLIT (BEFORE FEATURE SELECTION!)
+
 X_train, X_test, y_train, y_test = train_test_split(
     X, y,
     test_size=0.2,
@@ -71,9 +64,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 
-# ==============================
-# 5. REMOVE CORRELATED FEATURES (ONLY USING TRAIN DATA)
-# ==============================
+#  REMOVE CORRELATED FEATURES (ONLY USING TRAIN DATA)
 def remove_correlated_features(X, threshold=0.9):
     print("\nRemoving highly correlated features...")
 
@@ -96,18 +87,15 @@ X_train, dropped_cols = remove_correlated_features(X_train)
 X_test = X_test.drop(columns=dropped_cols, errors='ignore')
 
 
-# ==============================
-# 6. FEATURE SCALING (needed for Isolation Forest)
-# ==============================
+
+#  FEATURE SCALING (needed for Isolation Forest)
 scaler = StandardScaler()
 
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
 
-# ==============================
-# 7. RANDOM FOREST MODEL
-# ==============================
+# RANDOM FOREST MODEL
 print("\nTraining Random Forest...")
 
 rf = RandomForestClassifier(
@@ -124,9 +112,7 @@ y_pred_rf = rf.predict(X_test)
 y_scores_rf = rf.predict_proba(X_test)[:, 1]
 
 
-# ==============================
-# 8. ISOLATION FOREST MODEL
-# ==============================
+# ISOLATION FOREST MODEL
 print("\nTraining Isolation Forest...")
 
 iso = IsolationForest(
@@ -145,9 +131,7 @@ threshold = np.percentile(y_scores_iso, 90)
 y_pred_iso = (y_scores_iso >= threshold).astype(int)
 
 
-# ==============================
-# 9. EVALUATION FUNCTION
-# ==============================
+#  EVALUATION FUNCTION
 def evaluate_model(name, y_true, y_pred, y_scores):
     print(f"\n===== {name} =====")
 
@@ -163,9 +147,7 @@ evaluate_model("Random Forest", y_test, y_pred_rf, y_scores_rf)
 evaluate_model("Isolation Forest", y_test, y_pred_iso, y_scores_iso)
 
 
-# ==============================
-# 10. VISUALIZATION
-# ==============================
+# VISUALIZATION
 def plot_confusion_matrix(y_true, y_pred, title):
     cm = confusion_matrix(y_true, y_pred)
 
@@ -189,9 +171,7 @@ plot_confusion_matrix(y_test, y_pred_rf, "Random Forest Confusion Matrix")
 plot_confusion_matrix(y_test, y_pred_iso, "Isolation Forest Confusion Matrix")
 
 
-# ==============================
-# 11. ROC CURVE
-# ==============================
+# ROC CURVE
 def plot_roc(y_true, y_scores, title):
     fpr, tpr, _ = roc_curve(y_true, y_scores)
     roc_auc = roc_auc_score(y_true, y_scores)
@@ -213,9 +193,8 @@ plot_roc(y_test, y_scores_rf, "Random Forest ROC Curve")
 plot_roc(y_test, y_scores_iso, "Isolation Forest ROC Curve")
 
 
-# ==============================
-# 12. DONE
-# ==============================
+
+# FIGURES
 
 from sklearn.metrics import precision_recall_curve
 
@@ -265,4 +244,4 @@ plt.ylabel("Accuracy")
 plt.savefig(output_path + title + ".png")
 plt.show()
 ##########
-print("\n✅ Pipeline completed successfully!")
+print("\nPipeline completed successfully!")
