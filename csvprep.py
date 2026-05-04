@@ -2,11 +2,6 @@ import pandas as pd
 import numpy as np
 import glob
 
-
-
-# ==============================
-# 2. LOAD MULTIPLE CSV FILES
-# ==============================
 import os
 
 def csvLoader(folder_path):
